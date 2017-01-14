@@ -672,33 +672,6 @@ Class PDOModel {
     }
 
     /**
-     * Gets fieldname(Columnname)table 
-     * @param   string   $dbTableName                    Tablename for which fields data to be retrived
-     * return   array                                    return array of columns
-     */
-    public function columnDetails($dbTableName) {
-        try {
-            if ($this->dbType === "pgsql")
-                $this->sql = "select column_name,data_type from INFORMATION_SCHEMA.COLUMNS where table_name = '" . $dbTableName . "'";
-            else if ($this->dbType === "sqlite")
-                $this->sql = "PRAGMA table_info('" . $dbTableName . "')";
-            else
-                $this->sql = "DESCRIBE " . $this->parseTable($dbTableName);
- 
-            $stmt = $this->dbObj->prepare($this->sql); 
-            $stmt->execute();
-            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-			$arr = array();
-			foreach($result as $row){
-				$arr[$row["Field"]] = $row;
-			} 
-            return $arr;
-        } catch (PDOException $e) {
-            $this->setErrors($e->getMessage());
-        }
-    }
-
-    /**
      * Gets all tables from database
      * return   array                                    return array of tables
      */
@@ -731,6 +704,13 @@ Class PDOModel {
             $stmt = $this->dbObj->prepare($this->sql);
             $stmt->execute();
             $result = $stmt->fetchAll($this->getFetchType());
+			if ($this->dbType === "mysql"){
+				$arr = array();
+				foreach($result as $col){
+					$arr[$col["Field"]] = $col;
+				}
+				$result = $arr;
+			}
             return $result;
         } catch (PDOException $e) {
             $this->setErrors($e->getMessage());
