@@ -21,30 +21,30 @@ class IMGModel {
 
 	public $image;
 	public $image_type;
-     public $options = array(
-          "font"   => "",
-          "left"   => 0,
-          "top"    => 0,
-          "align"  => "center",
-          "valign" => "top",
-          "size"   => 16,
-          "color"  => array(255,255,255),
-          "rotate" => 0,
+	public $options = array(
+		"font"   => "",
+		"left"   => 0,
+		"top"    => 0,
+		"align"  => "center",
+		"valign" => "top",
+		"size"   => 16,
+		"color"  => array(255,255,255),
+		"rotate" => 0,
 
-          "draw_width"      => 0,
-          "draw_height"     => 0,
-          "draw_left"       => 0,
-          "draw_top"        => 0,
-          "draw_fit"        => "normal",
-          "draw_translateX" => 0,
-          "draw_translateY" => 0,
+		"draw_width"	 => 0,
+		"draw_height"	=> 0,
+		"draw_left"	  => 0,
+		"draw_top"	   => 0,
+		"draw_fit"	   => "normal",
+		"draw_translateX" => 0,
+		"draw_translateY" => 0,
 
-          "fill_from_x"  => 0,
-          "fill_from_y"  => 0,
-          "fill_to_x"    => 0,
-          "fill_to_y"    => 0,
-          "fill_color"   => array(255,0,0)
-     );
+		"fill_from_x"  => 0,
+		"fill_from_y"  => 0,
+		"fill_to_x"    => 0,
+		"fill_to_y"    => 0,
+		"fill_color"   => array(255,0,0)
+	);
 
 	public function __construct($filename = null){
 		if (!empty($filename)) {
@@ -63,7 +63,7 @@ class IMGModel {
 		} else {
 			throw new Exception("The file you're trying to open is not supported");
 		}
-          return $this;
+		return $this;
 	}
 	public function save($filename, $image_type = IMAGETYPE_JPEG, $compression = 75, $permissions = null) {
 		if ($image_type == IMAGETYPE_JPEG) {
@@ -139,8 +139,8 @@ class IMGModel {
 		imagecopyresampled($new_image, $this->image, 0, 0, 0, 0, $width, $height, $this->getWidth(), $this->getHeight());
 		$this->image = $new_image;
 	}
-     public function cut($x, $y, $width, $height) {
-    	     $new_image = imagecreatetruecolor($width, $height);
+	public function cut($x, $y, $width, $height) {
+    		$new_image = imagecreatetruecolor($width, $height);
 		imagecolortransparent($new_image, imagecolorallocate($new_image, 0, 0, 0));
 		imagealphablending($new_image, false);
 		imagesavealpha($new_image, true);
@@ -218,100 +218,100 @@ class IMGModel {
 	}
 
 
-     public function Fill_From($x,$y){
-          $w = $this->getWidth();
-          $h = $this->getHeight();
-          $this->options["fill_from_x"] = $x;
-          $this->options["fill_from_y"] = $y;
-          if(!is_numeric($x)){
-               $i = 1;
-               if(strstr($x,"-")){
-                    $i = -1;
-                    $x = str_replace("-","",$x);
-               }
-               $this->options["fill_from_x"] = (strstr($x,"%") ?  (($w / 100 * str_replace("%","",$x)) * $i)  : (str_replace("px","",$x) * $i)  );
-          }
-          if(!is_numeric($y)){
-               $i = 1;
-               if(strstr($y,"-")){
-                    $i = -1;
-                    $y = str_replace("-","",$y);
-               }
-               $this->options["fill_from_y"] = (strstr($y,"%") ?  (($h / 100 * str_replace("%","",$y)) * $i)  : (str_replace("px","",$y) * $i)  );
-          }
-          return $this;
-     }
-     public function Fill_Size($w,$h){
-          $x = $this->options["fill_from_x"];
-          $y = $this->options["fill_from_y"];
-          if(is_numeric($w)){
-               $x += $w;
-          }else{
-               $x = (strstr($w,"%") ?  ($x + ($this->getWidth() / 100 * str_replace("%","",$w)))  : ($x + str_replace("px","",$w))  );
-          }
-          if(is_numeric($h)){
-               $y += $h;
-          }else{
-               $y = (strstr($h,"%") ?  ($y + ($this->getHeight() / 100 * str_replace("%","",$h)))  : ($y + str_replace("px","",$h))  );
-          }
-          $this->options["fill_to_x"] = $x;
-          $this->options["fill_to_y"] = $y;
-          return $this;
-     }
-     public function Fill_Color($e){
-          $this->options["fill_color"] = $e;
-          return $this;
-     }
+	public function Fill_From($x,$y){
+		$w = $this->getWidth();
+		$h = $this->getHeight();
+		$this->options["fill_from_x"] = $x;
+		$this->options["fill_from_y"] = $y;
+		if(!is_numeric($x)){
+			$i = 1;
+			if(strstr($x,"-")){
+				$i = -1;
+				$x = str_replace("-","",$x);
+			}
+			$this->options["fill_from_x"] = (strstr($x,"%") ?  (($w / 100 * str_replace("%","",$x)) * $i)  : (str_replace("px","",$x) * $i)  );
+		}
+		if(!is_numeric($y)){
+			$i = 1;
+			if(strstr($y,"-")){
+				$i = -1;
+				$y = str_replace("-","",$y);
+			}
+			$this->options["fill_from_y"] = (strstr($y,"%") ?  (($h / 100 * str_replace("%","",$y)) * $i)  : (str_replace("px","",$y) * $i)  );
+		}
+		return $this;
+	}
+	public function Fill_Size($w,$h){
+		$x = $this->options["fill_from_x"];
+		$y = $this->options["fill_from_y"];
+		if(is_numeric($w)){
+			$x += $w;
+		}else{
+			$x = (strstr($w,"%") ?  ($x + ($this->getWidth() / 100 * str_replace("%","",$w)))  : ($x + str_replace("px","",$w))  );
+		}
+		if(is_numeric($h)){
+			$y += $h;
+		}else{
+			$y = (strstr($h,"%") ?  ($y + ($this->getHeight() / 100 * str_replace("%","",$h)))  : ($y + str_replace("px","",$h))  );
+		}
+		$this->options["fill_to_x"] = $x;
+		$this->options["fill_to_y"] = $y;
+		return $this;
+	}
+	public function Fill_Color($e){
+		$this->options["fill_color"] = $e;
+		return $this;
+	}
 	public function Fill_Rect(){
-          $c = $this->options["fill_color"];
+		$c = $this->options["fill_color"];
 		$color = (count($c) == 3 ? imagecolorallocate($this->image, $c[0], $c[1], $c[2]) : imagecolorallocatealpha($this->image, $c[0], $c[1], $c[2], $c[3])) ;
 		imagefilledrectangle(
-               $this->image,
-               $this->options["fill_from_x"],
-               $this->options["fill_from_y"],
-               $this->options["fill_to_x"],
-               $this->options["fill_to_y"],
-               $color
-          );
-          return $this;
+			$this->image,
+			$this->options["fill_from_x"],
+			$this->options["fill_from_y"],
+			$this->options["fill_to_x"],
+			$this->options["fill_to_y"],
+			$color
+		);
+		return $this;
 	}
 
 
 
-     public function Text_Font($font){
-          if(file_exists($font)) $this->options["font"] = $font;
-          return $this;
-     }
-     public function Text_Left($e){
-          $this->options["left"] = $e;
-          return $this;
-     }
-     public function Text_Top($e){
-          $this->options["top"] = $e;
-          return $this;
-     }
-     public function Text_Align($e){
-          $this->options["align"] = $e;
-          return $this;
-     }
-     public function Text_Valign($e){
-          $this->options["valign"] = $e;
-          return $this;
-     }
-     public function Text_Size($e){
-          $this->options["size"] = $e;
-          return $this;
-     }
-     public function Text_Color($e){
-          $this->options["color"] = $e;
-          return $this;
-     }
-     public function Text_Rotate($e){
-          $this->options["rotate"] = $e;
-          return $this;
-     }
+	public function Text_Font($font){
+		if(file_exists($font)) $this->options["font"] = $font;
+		return $this;
+	}
+	public function Text_Left($e){
+		$this->options["left"] = $e;
+		return $this;
+	}
+	public function Text_Top($e){
+		$this->options["top"] = $e;
+		return $this;
+	}
+	public function Text_Align($e){
+		$this->options["align"] = $e;
+		return $this;
+	}
+	public function Text_Valign($e){
+		$this->options["valign"] = $e;
+		return $this;
+	}
+	public function Text_Size($e){
+		$this->options["size"] = $e;
+		return $this;
+	}
+	public function Text_Color($e){
+		$this->options["color"] = $e;
+		return $this;
+	}
+	public function Text_Rotate($e){
+		$this->options["rotate"] = $e;
+		return $this;
+	}
 	public function Text_Write($text){
-          $c = $this->options["color"];
+		$c = $this->options["color"];
 		$color = (count($c) == 3 ? imagecolorallocate($this->image, $c[0], $c[1], $c[2]) : imagecolorallocatealpha($this->image, $c[0], $c[1], $c[2], $c[3])) ;
 		$x   = $this->options["left"];
 		$y   = $this->options["top"];
@@ -338,95 +338,95 @@ class IMGModel {
 		}else{
 			imagestring($this->image,5,$x,$y,$text,$color);
 		}
-          return $this;
+		return $this;
 	}
 
 
 
-     public function Draw_Width($e){
-          $this->options["draw_width"] = $e;
-          return $this;
-     }
-     public function Draw_Height($e){
-          $this->options["draw_height"] = $e;
-          return $this;
-     }
-     public function Draw_Left($e){
-          $this->options["draw_left"] = $e;
-          return $this;
-     }
-     public function Draw_Top($e){
-          $this->options["draw_top"] = $e;
-          return $this;
-     }
-     public function Draw_Fit($e){
-          $this->options["draw_fit"] = $e;
-          return $this;
-     }
-     public function Draw_TranslateX($e){
-          $this->options["draw_translateX"] = $e;
-          return $this;
-     }
-     public function Draw_TranslateY($e){
-          $this->options["draw_translateY"] = $e;
-          return $this;
-     }
-     public function Draw_Image($e){
-          $img = new IMGModel($e);
-          $w = $img->getWidth();
-          $h = $img->getHeight();
-          if($this->options["draw_fit"] == "normal"){
-               if($this->options["draw_width"] != 0 || $this->options["draw_height"] != 0){
-                    $img->resize( ($this->options["draw_width"] == 0 ? $w :$this->options["draw_width"] ) , ($this->options["draw_height"] == 0 ? $w :$this->options["draw_height"] )  );
-               }
-          }
-          if($this->options["draw_fit"] == "contain"){
-               $img->maxarea( ($this->options["draw_width"] == 0 ? $w :$this->options["draw_width"] ) , ($this->options["draw_height"] == 0 ? $w :$this->options["draw_height"] )  );
-          }
-          if($this->options["draw_fit"] == "cover"){
-               $img->minarea( ($this->options["draw_width"] == 0 ? $w :$this->options["draw_width"] ) , ($this->options["draw_height"] == 0 ? $w :$this->options["draw_height"] )  );
-          }
-          $w  = $img->getWidth();
-          $h  = $img->getHeight();
-          $x  = $this->options["draw_left"];
-          $y  = $this->options["draw_top"];
-          $tx = $this->options["draw_translateX"];
-          $ty = $this->options["draw_translateY"];
-          if(is_numeric($tx)){
-               $x += $tx;
-          }else{
-               $i = 1;
-               if(strstr($tx,"-")){
-                    $i = -1;
-                    $tx = str_replace("-","",$tx);
-               }
-               if(strstr($tx,"%")){
-                    $tx = str_replace("%","",$tx);
-                    $x = $x + (($w / 100 * $tx) * $i);
-               }else{
-                    $tx = str_replace("px","",$tx);
-                    $x = $x + ($tx * $i);
-               }
-          }
-          if(is_numeric($ty)){
-               $y += $ty;
-          }else{
-               $i = 1;
-               if(strstr($ty,"-")){
-                    $i = -1;
-                    $ty = str_replace("-","",$ty);
-               }
-               if(strstr($ty,"%")){
-                    $ty = str_replace("%","",$ty);
-                    $y = $y + (($h / 100 * $ty) * $i);
-               }else{
-                    $ty = str_replace("px","",$ty);
-                    $y = $y + ($ty * $i);
-               }
-          }
-          imagecopy($this->image, $img->image, $x, $y, 0, 0, $w, $h);
-          return $this;
-     }
+	public function Draw_Width($e){
+		$this->options["draw_width"] = $e;
+		return $this;
+	}
+	public function Draw_Height($e){
+		$this->options["draw_height"] = $e;
+		return $this;
+	}
+	public function Draw_Left($e){
+		$this->options["draw_left"] = $e;
+		return $this;
+	}
+	public function Draw_Top($e){
+		$this->options["draw_top"] = $e;
+		return $this;
+	}
+	public function Draw_Fit($e){
+		$this->options["draw_fit"] = $e;
+		return $this;
+	}
+	public function Draw_TranslateX($e){
+		$this->options["draw_translateX"] = $e;
+		return $this;
+	}
+	public function Draw_TranslateY($e){
+		$this->options["draw_translateY"] = $e;
+		return $this;
+	}
+	public function Draw_Image($e){
+		$img = new IMGModel($e);
+		$w = $img->getWidth();
+		$h = $img->getHeight();
+		if($this->options["draw_fit"] == "normal"){
+			if($this->options["draw_width"] != 0 || $this->options["draw_height"] != 0){
+				$img->resize( ($this->options["draw_width"] == 0 ? $w :$this->options["draw_width"] ) , ($this->options["draw_height"] == 0 ? $w :$this->options["draw_height"] )  );
+			}
+		}
+		if($this->options["draw_fit"] == "contain"){
+			$img->maxarea( ($this->options["draw_width"] == 0 ? $w :$this->options["draw_width"] ) , ($this->options["draw_height"] == 0 ? $w :$this->options["draw_height"] )  );
+		}
+		if($this->options["draw_fit"] == "cover"){
+			$img->minarea( ($this->options["draw_width"] == 0 ? $w :$this->options["draw_width"] ) , ($this->options["draw_height"] == 0 ? $w :$this->options["draw_height"] )  );
+		}
+		$w  = $img->getWidth();
+		$h  = $img->getHeight();
+		$x  = $this->options["draw_left"];
+		$y  = $this->options["draw_top"];
+		$tx = $this->options["draw_translateX"];
+		$ty = $this->options["draw_translateY"];
+		if(is_numeric($tx)){
+			$x += $tx;
+		}else{
+			$i = 1;
+			if(strstr($tx,"-")){
+				$i = -1;
+				$tx = str_replace("-","",$tx);
+			}
+			if(strstr($tx,"%")){
+				$tx = str_replace("%","",$tx);
+				$x = $x + (($w / 100 * $tx) * $i);
+			}else{
+				$tx = str_replace("px","",$tx);
+				$x = $x + ($tx * $i);
+			}
+		}
+		if(is_numeric($ty)){
+			$y += $ty;
+		}else{
+			$i = 1;
+			if(strstr($ty,"-")){
+				$i = -1;
+				$ty = str_replace("-","",$ty);
+			}
+			if(strstr($ty,"%")){
+				$ty = str_replace("%","",$ty);
+				$y = $y + (($h / 100 * $ty) * $i);
+			}else{
+				$ty = str_replace("px","",$ty);
+				$y = $y + ($ty * $i);
+			}
+		}
+		imagecopy($this->image, $img->image, $x, $y, 0, 0, $w, $h);
+		return $this;
+	}
 
 
 
